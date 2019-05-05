@@ -1,0 +1,67 @@
+
+ES Mapping、字段类型Field type详解
+https://blog.csdn.net/ZYC88888/article/details/83059040
+
+字段类型概述
+一级分类	二级分类	具体类型
+核心类型	字符串类型	string,text,keyword
+整数类型	integer,long,short,byte
+浮点类型	double,float,half_float,scaled_float
+逻辑类型	boolean
+日期类型	date
+范围类型	range
+二进制类型	binary
+复合类型	数组类型	array
+对象类型	object
+嵌套类型	nested
+地理类型	地理坐标类型	geo_point
+地理地图	geo_shape
+特殊类型	IP类型	ip
+范围类型	completion
+令牌计数类型	token_count
+附件类型	attachment
+抽取类型	percolator
+
+Keyword	                         Sample	                                        Elasticsearch Query String
+And	                        findByNameAndPrice	                            {"bool" : {"must" : [ {"field" : {"name" : "?"}}, {"field" : {"price" : "?"}} ]}}
+Or	                        findByNameOrPrice	                            {"bool" : {"should" : [ {"field" : {"name" : "?"}}, {"field" : {"price" : "?"}} ]}}
+Is	                        findByName	                                    {"bool" : {"must" : {"field" : {"name" : "?"}}}}
+Not	                        findByNameNot	                                {"bool" : {"must_not" : {"field" : {"name" : "?"}}}}
+Between	                    findByPriceBetween	                            {"bool" : {"must" : {"range" : {"price" : {"from" : ?,"to" : ?,"include_lower" : true,"include_upper" : true}}}}}
+LessThanEqual	            findByPriceLessThan	                            {"bool" : {"must" : {"range" : {"price" : {"from" : null,"to" : ?,"include_lower" : true,"include_upper" : true}}}}}
+GreaterThanEqual	        findByPriceGreaterThan	                        {"bool" : {"must" : {"range" : {"price" : {"from" : ?,"to" : null,"include_lower" : true,"include_upper" : true}}}}}
+Before	                    findByPriceBefore	                            {"bool" : {"must" : {"range" : {"price" : {"from" : null,"to" : ?,"include_lower" : true,"include_upper" : true}}}}}
+After	                    findByPriceAfter	                            {"bool" : {"must" : {"range" : {"price" : {"from" : ?,"to" : null,"include_lower" : true,"include_upper" : true}}}}}
+Like	                    findByNameLike	                                {"bool" : {"must" : {"field" : {"name" : {"query" : "?*","analyze_wildcard" : true}}}}}
+StartingWith	            findByNameStartingWith	                        {"bool" : {"must" : {"field" : {"name" : {"query" : "?*","analyze_wildcard" : true}}}}}
+EndingWith	                findByNameEndingWith	                        {"bool" : {"must" : {"field" : {"name" : {"query" : "*?","analyze_wildcard" : true}}}}}
+Contains/Containing	        findByNameContaining	                        {"bool" : {"must" : {"field" : {"name" : {"query" : "**?**","analyze_wildcard" : true}}}}}
+In	                        findByNameIn(Collection<String>names)	        {"bool" : {"must" : {"bool" : {"should" : [ {"field" : {"name" : "?"}}, {"field" : {"name" : "?"}} ]}}}}
+NotIn	                    findByNameNotIn(Collection<String>names)	    {"bool" : {"must_not" : {"bool" : {"should" : {"field" : {"name" : "?"}}}}}}
+Near	                    findByStoreNear	                                Not Supported Yet !
+True	                    findByAvailableTrue	                            {"bool" : {"must" : {"field" : {"available" : true}}}}
+False	                    findByAvailableFalse	                        {"bool" : {"must" : {"field" : {"available" : false}}}}
+OrderBy	                    findByAvailableTrueOrderByNameDesc	            {"sort" : [{ "name" : {"order" : "desc"} }],"bool" : {"must" : {"field" : {"available" : true}}}}
+
+
+QueryBuilder boolQueryBuilder = QueryBuilders.boolQuery(); // bool语句的封装 组合语句 and not or
+QueryBuilders.termQuery(null,null); //精确查询 完全匹配
+QueryBuilders.termsQuery(null,1,2); // 精确查询 批量匹配
+QueryBuilders.matchQuery(null,null); //单个匹配 field不支持通配符, 前缀具高级特性
+QueryBuilders.matchAllQuery(); //查询所有
+QueryBuilders.multiMatchQuery("text","",""); //匹配多个字段, field有通配符忒行
+QueryBuilders.idsQuery(); //根据id查询
+QueryBuilders.constantScoreQuery(boolQueryBuilder).boost(12.12f); //包裹查询, 高于设定分数, 不计算相关性
+QueryBuilders.disMaxQuery(); // 对子查询的结果做union, score沿用子查询score的最大值,
+QueryBuilders.fuzzyQuery("",""); //模糊查询 不能用通配符
+QueryBuilders.moreLikeThisQuery(new String[2]); //基于内容的查询
+QueryBuilders.boostingQuery();//它接受一个positive查询和一个negative查询。只有匹配了positive查询的文档才会被包含到结果集中，但是同时匹配了negative查询的文档会被降低其相关度，通过将文档原本的_score和negative_boost参数进行相乘来得到新的_score
+QueryBuilders.functionScoreQuery(); //根据权重分查询
+QueryBuilders.rangeQuery(); //范围查询
+QueryBuilders.spanNearQuery() //跨度查询
+QueryBuilders.wildcardQuery("user", "ki*hy") //通配符查询
+QueryBuilders.nestedQuery() //嵌套查询
+
+
+
+
