@@ -36,6 +36,7 @@ public class Item {
     @Field(type = FieldType.Text, analyzer = "ik_max_word")
     private String text; //标题
 
+
     public Item(long id, String text) {
         this.id = id;
         this.text = text;

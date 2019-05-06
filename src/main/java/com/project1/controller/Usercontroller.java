@@ -11,9 +11,7 @@ import com.project1.error.BusinessException;
 import com.project1.error.EmBusinessError;
 import com.project1.response.CommonReturnType;
 import com.project1.service.UserService;
-import com.project1.service.model.PermitModel;
 import com.project1.service.model.PermitModel2;
-import com.project1.service.model.RoleModel;
 import com.project1.service.model.UserModel;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -21,7 +19,6 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,8 +105,8 @@ public class Usercontroller extends BaseController {
     @ResponseBody
     public CommonReturnType getUserresumeByid(@RequestParam(name = "user_id")Integer id) throws BusinessException {
         //UserModel userModel = userService.getUserById(id);
-        userresumeDO userresumeDO = userresumeDOMapper.selectuserByid(id);
-        if(userresumeDO == null){
+        List<userresumeDO> userresumeDOS = userresumeDOMapper.selectResumeById(id);
+        if(userresumeDOS == null){
 //            userModel.setPassword("123");
             throw new BusinessException(EmBusinessError.USER_NOT_EXIST);
         }
@@ -117,7 +114,7 @@ public class Usercontroller extends BaseController {
         //UserVO userVO = convertFromModel(userModel);
 
         //返回通用对象s
-        return CommonReturnType.create(userresumeDO);
+        return CommonReturnType.create(userresumeDOS);
 
 //        return userModel;
     }

@@ -71,6 +71,7 @@ public class userRealm extends AuthorizingRealm {
 //        String password = "854856";
         UsernamePasswordToken token = (UsernamePasswordToken)authenticationToken;
         userinfoDO userinfoDO = userinfoDOMapper.findByUserName(Integer.valueOf(token.getUsername()).intValue());
+
         userpasswordDO userPasswordDO = userPasswordDOMapper.selectByPrimaryKey(Integer.valueOf(token.getUsername()).intValue());
 
 //        if (userPasswordDO==null){
