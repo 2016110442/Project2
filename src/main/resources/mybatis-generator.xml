@@ -36,34 +36,34 @@
         <!--<ignoreColumn column="FRED" />-->
         <!--<columnOverride column="LONG_VARCHAR_FIELD" jdbcType="VARCHAR" />-->
         <!--</table>-->
-        <!--<table tableName="modify_file" domainObjectName="modifyfileDO" enableCountByExample="false"-->
+        <!--<table tableName="modify_file" domainObjectName="ModifyfileDO" enableCountByExample="false"-->
                <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
                <!--selectByExampleQueryId="false"></table>-->
-        <!--<table tableName="role_permit" domainObjectName="rolepermitDO" enableCountByExample="false"-->
+        <!--<table tableName="role_permit" domainObjectName="RolepermitDO" enableCountByExample="false"-->
                <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
                <!--selectByExampleQueryId="false"></table>-->
-        <!--<table tableName="role_permit_info" domainObjectName="rolepermitinfoDO" enableCountByExample="false"-->
+        <!--<table tableName="role_permit_info" domainObjectName="RolepermitinfoDO" enableCountByExample="false"-->
                <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
                <!--selectByExampleQueryId="false"></table>-->
-        <!--<table tableName="user_info" domainObjectName="userinfoDO" enableCountByExample="false"-->
+        <!--<table tableName="user_info" domainObjectName="UserinfoDO" enableCountByExample="false"-->
                <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
                <!--selectByExampleQueryId="false"></table>-->
-        <!--<table tableName="user_password" domainObjectName="userpasswordDO" enableCountByExample="false"-->
+        <!--<table tableName="user_password" domainObjectName="UserpasswordDO" enableCountByExample="false"-->
                <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
                <!--selectByExampleQueryId="false"></table>-->
-        <!--<table tableName="user_permit" domainObjectName="userpermitDO" enableCountByExample="false"-->
+        <!--<table tableName="user_permit" domainObjectName="UserpermitDO" enableCountByExample="false"-->
                <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
                <!--selectByExampleQueryId="false"></table>-->
-        <table tableName="user_resume" domainObjectName="userresumeDO" enableCountByExample="false"
+        <!--<table tableName="user_resume" domainObjectName="userresumeDO" enableCountByExample="false"-->
+               <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+               <!--selectByExampleQueryId="false"></table>-->
+        <table tableName="user_role" domainObjectName="UserroleDO" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>
-        <!--<table tableName="user_role_info" domainObjectName="userroleinfoDO" enableCountByExample="false"-->
+        <!--<table tableName="user_typework" domainObjectName="UsertypeworkDO" enableCountByExample="false"-->
                <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
                <!--selectByExampleQueryId="false"></table>-->
-        <!--<table tableName="user_typework" domainObjectName="usertypeworkDO" enableCountByExample="false"-->
-               <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
-               <!--selectByExampleQueryId="false"></table>-->
-        <!--<table tableName="user_unit" domainObjectName="userunitDO" enableCountByExample="false"-->
+        <!--<table tableName="user_unit" domainObjectName="UserunitDO" enableCountByExample="false"-->
                <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
                <!--selectByExampleQueryId="false"></table>-->
 

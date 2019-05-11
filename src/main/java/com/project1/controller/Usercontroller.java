@@ -1,10 +1,7 @@
 package com.project1.controller;
 
 import com.project1.controller.viewobject.UserVO;
-import com.project1.dao.userpermitDOMapper;
-import com.project1.dao.userresumeDOMapper;
-import com.project1.dao.userroleinfoDOMapper;
-import com.project1.dao.rolepermitDOMapper;
+import com.project1.dao.*;
 
 import com.project1.dataobject.*;
 import com.project1.error.BusinessException;
@@ -24,39 +21,49 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Controller("user")
 @RequestMapping("/user")
+//@CrossOrigin(allowCredentials = "true",allowedHeaders = "*")
 public class Usercontroller extends BaseController {
 
     @Autowired
     private UserService userService;
 
 //    @Autowired
-//    private userinfoDO userinfoDO;
+//    private UserinfoDO UserinfoDO;
     @Autowired
-    private rolepermitDOMapper rolepermitDOMapper;
-
-
-    @Autowired
-    private userroleinfoDOMapper userroleinfoDOMapper;
+    private RolepermitDOMapper rolepermitDOMapper;
 
     @Autowired
-    private userpermitDOMapper userpermitDOMapper;
+    private UserinfoDOMapper userinfoDOMapper;
 
     @Autowired
-    private userresumeDOMapper userresumeDOMapper;
+    private UserpasswordDOMapper userpasswordDOMapper;
+
+    @Autowired
+    private UserroleinfoDOMapper userroleinfoDOMapper;
+
+    @Autowired
+    private UserpermitDOMapper userpermitDOMapper;
+
+    @Autowired
+    private UserresumeDOMapper userresumeDOMapper;
+
+    @Autowired
+    private UsertypeworkDOMapper usertypeworkDOMapper;
+
+    @Autowired
+    private UserunitDOMapper userunitDOMapper;
+
 
 //
 //    @Autowired
-//    private userpasswordDO userpasswordDO;
+//    private UserpasswordDO UserpasswordDO;
 
     @Autowired
     private HttpServletRequest httpServletRequest;
@@ -84,6 +91,7 @@ public class Usercontroller extends BaseController {
 
 
 
+
     @RequestMapping("/get")
     @ResponseBody
     public CommonReturnType getUser(@RequestParam(name = "id")Integer id) throws BusinessException {
@@ -96,6 +104,11 @@ public class Usercontroller extends BaseController {
         //UserVO userVO = convertFromModel(userModel);
 
         //返回通用对象
+        Integer unitid = Integer.valueOf(userModel.getUnitId()).intValue();
+        Integer typeWorkid = Integer.valueOf(userModel.getWorkId()).intValue();
+        userModel.setUnitId(userunitDOMapper.selectByPrimaryKey(unitid).getUnit());
+        userModel.setWorkId(usertypeworkDOMapper.selectByPrimaryKey(typeWorkid).getWord());
+
         return CommonReturnType.create(userModel);
 
 //        return userModel;
@@ -105,8 +118,8 @@ public class Usercontroller extends BaseController {
     @ResponseBody
     public CommonReturnType getUserresumeByid(@RequestParam(name = "user_id")Integer id) throws BusinessException {
         //UserModel userModel = userService.getUserById(id);
-        List<userresumeDO> userresumeDOS = userresumeDOMapper.selectResumeById(id);
-        if(userresumeDOS == null){
+        List<UserresumeDO> UserresumeDOS = userresumeDOMapper.selectResumeById(id);
+        if(UserresumeDOS == null){
 //            userModel.setPassword("123");
             throw new BusinessException(EmBusinessError.USER_NOT_EXIST);
         }
@@ -114,15 +127,10 @@ public class Usercontroller extends BaseController {
         //UserVO userVO = convertFromModel(userModel);
 
         //返回通用对象s
-        return CommonReturnType.create(userresumeDOS);
+        return CommonReturnType.create(UserresumeDOS);
 
 //        return userModel;
     }
-
-
-
-
-
 
     @RequestMapping(value = "/login",method = {RequestMethod.POST},consumes = {CONTENT_TYPE_FORMED})
     @ResponseBody
@@ -139,16 +147,16 @@ public class Usercontroller extends BaseController {
         this.httpServletRequest.getSession().setAttribute("IS_LOGIN",true);
         this.httpServletRequest.getSession().setAttribute("LOGIN_USER",userModel);
 
-        userroleinfoDO userroleinfoDO = userroleinfoDOMapper.selectByPrimaryKey(userModel.getUserId());
+        UserroleinfoDO userroleinfoDO = userroleinfoDOMapper.selectByPrimaryKey(userModel.getUserId());
 
-        Set<rolepermitDO> rolepermitDOS = rolepermitDOMapper.selectByRoldId(userroleinfoDO.getRoleId());
+        Set<RolepermitDO> RolepermitDOS = rolepermitDOMapper.selectByRoldId(userroleinfoDO.getRoleId());
 //        Map<String,String> mappermit = new HashMap<>();
         List<PermitModel2> strings = new ArrayList<>();
-//        for (rolepermitDO rolepermitDO : rolepermitDOS) {
-//            strings.add(userpermitDOMapper.selectByPrimaryKey(Integer.valueOf(rolepermitDO.getPermitId()).intValue()).getPermitName());
+//        for (RolepermitDO RolepermitDO : RolepermitDOS) {
+//            strings.add(UserpermitDOMapper.selectByPrimaryKey(Integer.valueOf(RolepermitDO.getPermitId()).intValue()).getPermitName());
 //        }
 //        userModel.setStrings(strings);
-        for (rolepermitDO rolepermitDO : rolepermitDOS) {
+        for (RolepermitDO rolepermitDO : RolepermitDOS) {
             PermitModel2 permitModel = new PermitModel2();
             permitModel.setPermitName(userpermitDOMapper.selectByPrimaryKey(Integer.valueOf(rolepermitDO.getPermitId()).intValue()).getPermitName());
             permitModel.setPermitInfo(userpermitDOMapper.selectByPrimaryKey(Integer.valueOf(rolepermitDO.getPermitId()).intValue()).getPermitInfo());
@@ -160,8 +168,51 @@ public class Usercontroller extends BaseController {
         //返回通用对象
     }
 
+    @RequestMapping(value = "/updatepassword",method = {RequestMethod.POST})
+    @ResponseBody
+    public CommonReturnType update(@RequestBody UserpasswordDO userpasswordDO){
+        Integer i = userpasswordDOMapper.updateByPrimaryKeySelective(userpasswordDO);
+        return CommonReturnType.create(i);
+    }
+
+    @RequestMapping(value = "/updateuserinfo",method = {RequestMethod.POST})
+    @ResponseBody
+    public CommonReturnType update(@RequestBody UserinfoDO userinfoDO){
+        Integer i = userinfoDOMapper.updateByPrimaryKeySelective(userinfoDO);
+        return CommonReturnType.create(i);
+    }
+
+    @RequestMapping(value = "/addresume",method = {RequestMethod.POST})
+    @ResponseBody
+    public CommonReturnType add(@RequestBody UserresumeDO userresumeDO){
+        Integer i = userresumeDOMapper.updateByPrimaryKeySelective(userresumeDO);
+        return CommonReturnType.create(i);
+    }
+
+    @RequestMapping(value = "/deletepassword",method = {RequestMethod.DELETE})
+    @ResponseBody
+    public CommonReturnType deletepassword(@RequestBody UserpasswordDO userpasswordDO){
+        Integer i = userpasswordDOMapper.deleteByPrimaryKey(userpasswordDO.getUserId());
+        return CommonReturnType.create(i);
+    }
+
+    @RequestMapping(value = "/deleteuserinfo",method = {RequestMethod.DELETE})
+    @ResponseBody
+    public CommonReturnType deleteuserinfo(@RequestBody UserinfoDO userinfoDO){
+        Integer i = userinfoDOMapper.deleteByPrimaryKey(userinfoDO.getUserId());
+        return CommonReturnType.create(i);
+    }
+
+
+
+
+
+
+
+
+
     //@RequiresPermissions(value = "user:add")
-    @RequestMapping(value = "/register",method = {RequestMethod.POST},consumes = {CONTENT_TYPE_FORMED})
+    @RequestMapping(value = "/registeruserinfo",method = {RequestMethod.POST},consumes = {CONTENT_TYPE_FORMED})
     @ResponseBody
     public CommonReturnType register(@RequestParam(name = "userId")Integer userId,
                                      @RequestParam(name = "userName")String userName,
@@ -202,11 +253,11 @@ public class Usercontroller extends BaseController {
     }
 
 
-    private UserModel comvertFromDataObject(userinfoDO userinfoDO, userpasswordDO userpasswordDO){
+    private UserModel comvertFromDataObject(UserinfoDO userinfoDO, UserpasswordDO userpasswordDO){
         return getUserModel(userinfoDO, userpasswordDO);
     }
 
-    public static UserModel getUserModel(userinfoDO userinfoDO, userpasswordDO userpasswordDO) {
+    public static UserModel getUserModel(UserinfoDO userinfoDO, UserpasswordDO userpasswordDO) {
         if (userinfoDO==null){
             return null;
         }
