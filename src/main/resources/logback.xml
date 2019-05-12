@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!--<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">-->
+        <!--&lt;!&ndash; encoder 默认配置为PatternLayoutEncoder &ndash;&gt;-->
+        <!--<encoder>-->
+            <!--<pattern>%d{HH:mm:ss.SSS}-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; [%thread] %-5level %logger{36} - %msg%n</pattern>-->
+        <!--</encoder>-->
+    <!--</appender>-->
+    <!--ch.qos.logback.classic.db.DBAppender
+    com.project1.controller.logging.MyDBAppender-->
+    <appender name="DB" class="com.project1.controller.logging.MyDBAppender">
+        <connectionSource class="ch.qos.logback.core.db.DataSourceConnectionSource">
+            <dataSource class="org.apache.commons.dbcp.BasicDataSource">
+                <driverClassName>com.mysql.jdbc.Driver</driverClassName>
+                <url>jdbc:mysql://localhost/eighthcompany?serverTimezone=GMT</url>
+                <username>root</username>
+                <password>123456</password>
+            </dataSource>
+        </connectionSource>
+    </appender>
+
+    <!-- logback为java中的包 -->
+    <logger name="logback"/>
+
+    <root level="DEBUG">
+        <!--<appender-ref ref="STDOUT" />-->
+        <!--<appender-ref ref="FILE" />-->
+        <appender-ref ref="DB" />
+    </root>
+
+</configuration>

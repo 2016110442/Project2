@@ -16,6 +16,7 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -150,6 +151,9 @@ public class Usercontroller extends BaseController {
         UserroleinfoDO userroleinfoDO = userroleinfoDOMapper.selectByPrimaryKey(userModel.getUserId());
 
         Set<RolepermitDO> RolepermitDOS = rolepermitDOMapper.selectByRoldId(userroleinfoDO.getRoleId());
+//        Subject subject = SecurityUtils.getSubject();
+//        Session session = subject.getSession();
+//        System.out.println(session.getAttributeKeys());
 //        Map<String,String> mappermit = new HashMap<>();
         List<PermitModel2> strings = new ArrayList<>();
 //        for (RolepermitDO RolepermitDO : RolepermitDOS) {
@@ -162,6 +166,7 @@ public class Usercontroller extends BaseController {
             permitModel.setPermitInfo(userpermitDOMapper.selectByPrimaryKey(Integer.valueOf(rolepermitDO.getPermitId()).intValue()).getPermitInfo());
             strings.add(permitModel);
         }
+//        userModel.setSession(session);
         userModel.setPermit(strings);
         return CommonReturnType.create(userModel);
 
@@ -196,6 +201,14 @@ public class Usercontroller extends BaseController {
         return CommonReturnType.create(i);
     }
 
+    @RequestMapping(value = "/updatepassword",method = {RequestMethod.PUT})
+    @ResponseBody
+    public CommonReturnType updatepassword(@RequestBody UserpasswordDO userpasswordDO){
+        Integer i = userpasswordDOMapper.updateByPrimaryKeySelective(userpasswordDO);
+        return CommonReturnType.create(i);
+    }
+
+
     @RequestMapping(value = "/deleteuserinfo",method = {RequestMethod.DELETE})
     @ResponseBody
     public CommonReturnType deleteuserinfo(@RequestBody UserinfoDO userinfoDO){
@@ -212,7 +225,7 @@ public class Usercontroller extends BaseController {
 
 
     //@RequiresPermissions(value = "user:add")
-    @RequestMapping(value = "/registeruserinfo",method = {RequestMethod.POST},consumes = {CONTENT_TYPE_FORMED})
+    @RequestMapping(value = "/insertuserinfo",method = {RequestMethod.POST},consumes = {CONTENT_TYPE_FORMED})
     @ResponseBody
     public CommonReturnType register(@RequestParam(name = "userId")Integer userId,
                                      @RequestParam(name = "userName")String userName,

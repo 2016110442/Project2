@@ -5,6 +5,7 @@ import com.project1.dao.UserpasswordDOMapper;
 import com.project1.dataobject.UserinfoDO;
 import com.project1.dataobject.UserpasswordDO;
 import com.project1.dataobject.UserpermitDO;
+import com.project1.dataobject.UserroleDO;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;

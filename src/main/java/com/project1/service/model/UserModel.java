@@ -1,5 +1,8 @@
 package com.project1.service.model;
 
+import org.apache.shiro.session.InvalidSessionException;
+import org.apache.shiro.session.Session;
+
 import javax.management.relation.Role;
 import java.io.Serializable;
 import java.util.*;
@@ -26,6 +29,76 @@ public class UserModel implements Serializable {
     private Set<RoleModel> roleModels = new HashSet<>();
 
     List<PermitModel2> permit = new ArrayList<>();
+
+//    public Session getSession() {
+//        return session;
+//    }
+//
+//    public void setSession(Session session) {
+//        this.session = session;
+//    }
+//
+//    Session session = new Session() {
+//        @Override
+//        public Serializable getId() {
+//            return null;
+//        }
+//
+//        @Override
+//        public Date getStartTimestamp() {
+//            return null;
+//        }
+//
+//        @Override
+//        public Date getLastAccessTime() {
+//            return null;
+//        }
+//
+//        @Override
+//        public long getTimeout() throws InvalidSessionException {
+//            return 0;
+//        }
+//
+//        @Override
+//        public void setTimeout(long l) throws InvalidSessionException {
+//
+//        }
+//
+//        @Override
+//        public String getHost() {
+//            return null;
+//        }
+//
+//        @Override
+//        public void touch() throws InvalidSessionException {
+//
+//        }
+//
+//        @Override
+//        public void stop() throws InvalidSessionException {
+//
+//        }
+//
+//        @Override
+//        public Collection<Object> getAttributeKeys() throws InvalidSessionException {
+//            return null;
+//        }
+//
+//        @Override
+//        public Object getAttribute(Object o) throws InvalidSessionException {
+//            return null;
+//        }
+//
+//        @Override
+//        public void setAttribute(Object o, Object o1) throws InvalidSessionException {
+//
+//        }
+//
+//        @Override
+//        public Object removeAttribute(Object o) throws InvalidSessionException {
+//            return null;
+//        }
+//    };
 
     public List<PermitModel2> getPermit() {
         return permit;
