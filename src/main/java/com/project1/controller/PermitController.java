@@ -24,9 +24,9 @@ public class PermitController {
     @Autowired
     private PermitService permitService;
 
-    @RequestMapping(value = "/addrolepermit",method = {RequestMethod.POST})
+    @RequestMapping(value = "/insertrolepermit",method = {RequestMethod.POST})
     @ResponseBody
-    public CommonReturnType deleterole(@RequestBody Addpermit addpermit){
+    public CommonReturnType insertrolepermit(@RequestBody Addpermit addpermit){
         permitService.addPermitById(addpermit.getUserName(), addpermit.getRoleName(), addpermit.getPermits());
         return CommonReturnType.create(null);
     }
