@@ -8,6 +8,7 @@ import com.project1.error.BusinessException;
 import com.project1.error.EmBusinessError;
 import com.project1.response.CommonReturnType;
 import com.project1.service.UserService;
+import com.project1.service.model.LoginModel;
 import com.project1.service.model.PermitModel2;
 import com.project1.service.model.UserModel;
 import org.apache.commons.lang3.StringUtils;
@@ -29,7 +30,7 @@ import java.util.*;
 
 @Controller("user")
 @RequestMapping("/user")
-//@CrossOrigin(allowCredentials = "true",allowedHeaders = "*")
+@CrossOrigin(allowCredentials = "true",allowedHeaders = "*")
 public class Usercontroller extends BaseController {
 
     @Autowired
@@ -93,7 +94,7 @@ public class Usercontroller extends BaseController {
 
 
 
-    @RequestMapping("/get")
+    @RequestMapping(value = "/get",method = {RequestMethod.GET})
     @ResponseBody
     public CommonReturnType getUser(@RequestParam(name = "id")Integer id) throws BusinessException {
         UserModel userModel = userService.getUserById(id);
@@ -133,16 +134,18 @@ public class Usercontroller extends BaseController {
 //        return userModel;
     }
 
-    @RequestMapping(value = "/login",method = {RequestMethod.POST},consumes = {CONTENT_TYPE_FORMED})
+    @RequestMapping(value = "/login",method = {RequestMethod.POST})
     @ResponseBody
-    public CommonReturnType login(@RequestParam(name = "tel")String tel,
-                                  @RequestParam(name = "pw")String pw) throws BusinessException{
-        if (StringUtils.isEmpty(tel)|| StringUtils.isEmpty(pw)){
+    public CommonReturnType login(@RequestBody LoginModel loginModel) throws BusinessException{
+        if (StringUtils.isEmpty(loginModel.getTel())|| StringUtils.isEmpty(loginModel.getPw())){
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR);
         }
+        System.out.println(loginModel.getTel());
+        System.out.println(loginModel.getPw());
 
-        UserModel userModel = userService.validateLogin(tel,pw);
-        if (!StringUtils.equals(pw,userModel.getUserPassword())){
+
+        UserModel userModel = userService.validateLogin(loginModel.getTel(),loginModel.getPw());
+        if (!StringUtils.equals(loginModel.getPw(),userModel.getUserPassword())){
             throw new BusinessException(EmBusinessError.USER_PASSWORD_ERROR);
         }
         this.httpServletRequest.getSession().setAttribute("IS_LOGIN",true);
