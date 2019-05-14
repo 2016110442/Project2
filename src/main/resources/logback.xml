@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <!--<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">-->
-        <!--&lt;!&ndash; encoder 默认配置为PatternLayoutEncoder &ndash;&gt;-->
-        <!--<encoder>-->
-            <!--<pattern>%d{HH:mm:ss.SSS}-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45; [%thread] %-5level %logger{36} - %msg%n</pattern>-->
-        <!--</encoder>-->
-    <!--</appender>-->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoder 默认配置为PatternLayoutEncoder -->
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS}--------- [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
     <!--ch.qos.logback.classic.db.DBAppender
     com.project1.controller.logging.MyDBAppender-->
     <appender name="DB" class="com.project1.controller.logging.MyDBAppender">
@@ -23,10 +23,10 @@
     <!-- logback为java中的包 -->
     <logger name="logback"/>
 
-    <root level="DEBUG">
-        <!--<appender-ref ref="STDOUT" />-->
+    <root level="ERROR">
+        <appender-ref ref="STDOUT" />
         <!--<appender-ref ref="FILE" />-->
-        <appender-ref ref="DB" />
+        <!--<appender-ref ref="DB" />-->
     </root>
 
 </configuration>

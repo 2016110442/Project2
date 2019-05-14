@@ -2,6 +2,8 @@ package com.project1.service.impl;
 
 import com.project1.dao.UserinfoDOMapper;
 import com.project1.dao.UserpasswordDOMapper;
+import com.project1.dao.UsertypeworkDOMapper;
+import com.project1.dao.UserunitDOMapper;
 import com.project1.dataobject.UserinfoDO;
 
 import com.project1.dataobject.UserpasswordDO;
@@ -24,6 +26,13 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserpasswordDOMapper userpasswordDOMapper;
+
+    @Autowired
+    private UsertypeworkDOMapper usertypeworkDOMapper;
+
+    @Autowired
+    private UserunitDOMapper userunitDOMapper;
+
 
     @Override
     public UserModel getUserById(Integer id) {
@@ -61,7 +70,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void usersignup(UserModel userModel) throws BusinessException {
+    public Boolean usersignup(UserModel userModel) throws BusinessException {
         if (userModel== null){
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR);
         }
@@ -79,13 +88,17 @@ public class UserServiceImpl implements UserService {
             throw new BusinessException(EmBusinessError.USER_IS_EXIST);
         }
         userinfoDO = comvertFromModel(userModel);
+
+        userinfoDO.setWorkId(usertypeworkDOMapper.selectBywordName(userModel.getWorkId()).getWordId().toString());;
+        userinfoDO.setUnitId(userunitDOMapper.selectByUnit(userModel.getUnitId()).getUnitId().toString());;
+
         userinfoDOMapper.insertSelective(userinfoDO);
 
         UserpasswordDO userPasswordDO = comvertPasswordFromModel(userModel);
         userpasswordDOMapper.insertSelective(userPasswordDO);
 
         //UserModel userModel = comvertFromDataObject(userDO,userPasswordDO);
-
+        return true;
     }
 
 

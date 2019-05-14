@@ -6,7 +6,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
-@Document(indexName = "item",type = "docs",shards = 1,replicas = 0)
+@Document(indexName = "resume",type = "docs",shards = 1,replicas = 0)
 public class Item {
     /*
     * @Document 作用在类,标记实体类为文档对象，一般有两个属性
@@ -31,35 +31,46 @@ public class Item {
 
 
     @Id
-    private Long id;
+    private Integer resumeId;
+
+    @Field(type = FieldType.Integer)
+    private String edate; //标题
 
     @Field(type = FieldType.Text, analyzer = "ik_max_word")
-    private String text; //标题
+    private String event; //标题
 
-
-    public Item(long id, String text) {
-        this.id = id;
-        this.text = text;
+    public Item(Integer resumeId, String edate, String event) {
+        this.resumeId = resumeId;
+        this.edate = edate;
+        this.event = event;
     }
 
-    public Item(){
+    public Item() {
 
     }
 
-    public String getText() {
-        return text;
+
+    public Integer getResumeId() {
+        return resumeId;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setResumeId(Integer resumeId) {
+        this.resumeId = resumeId;
     }
 
-    public Long getId() {
-        return id;
+    public String getEdate() {
+        return edate;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setEdate(String edate) {
+        this.edate = edate;
     }
 
+    public String getEvent() {
+        return event;
+    }
+
+    public void setEvent(String event) {
+        this.event = event;
+    }
 }

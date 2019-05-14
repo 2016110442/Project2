@@ -94,7 +94,7 @@ public class Usercontroller extends BaseController {
 
 
 
-    @RequestMapping(value = "/get",method = {RequestMethod.GET})
+    @RequestMapping(value = "/select",method = {RequestMethod.GET})
     @ResponseBody
     public CommonReturnType getUser(@RequestParam(name = "id")Integer id) throws BusinessException {
         UserModel userModel = userService.getUserById(id);
@@ -190,7 +190,7 @@ public class Usercontroller extends BaseController {
         return CommonReturnType.create(i);
     }
 
-    @RequestMapping(value = "/addresume",method = {RequestMethod.POST})
+    @RequestMapping(value = "/insertresume",method = {RequestMethod.POST})
     @ResponseBody
     public CommonReturnType add(@RequestBody UserresumeDO userresumeDO){
         Integer i = userresumeDOMapper.updateByPrimaryKeySelective(userresumeDO);
@@ -208,54 +208,34 @@ public class Usercontroller extends BaseController {
     @ResponseBody
     public CommonReturnType updatepassword(@RequestBody UserpasswordDO userpasswordDO){
         Integer i = userpasswordDOMapper.updateByPrimaryKeySelective(userpasswordDO);
-        return CommonReturnType.create(i);
+        Boolean b = false;
+        if (i==1){
+            b=true;
+        }
+        return CommonReturnType.create(b);
     }
 
 
     @RequestMapping(value = "/deleteuserinfo",method = {RequestMethod.DELETE})
     @ResponseBody
-    public CommonReturnType deleteuserinfo(@RequestBody UserinfoDO userinfoDO){
-        Integer i = userinfoDOMapper.deleteByPrimaryKey(userinfoDO.getUserId());
+    public CommonReturnType deleteuserinfo(@RequestParam(name = "userid")Integer id){
+        Integer i = userinfoDOMapper.deleteByPrimaryKey(id);
+        userinfoDOMapper.deleteByPrimaryKey(id);
+        userroleinfoDOMapper.deleteByuserId(id);
+        userresumeDOMapper.deleteByid(id);
+
+
         return CommonReturnType.create(i);
     }
 
 
-
-
-
-
-
-
-
     //@RequiresPermissions(value = "user:add")
-    @RequestMapping(value = "/insertuserinfo",method = {RequestMethod.POST},consumes = {CONTENT_TYPE_FORMED})
+    @RequestMapping(value = "/insertuserinfo",method = {RequestMethod.POST})
     @ResponseBody
-    public CommonReturnType register(@RequestParam(name = "userId")Integer userId,
-                                     @RequestParam(name = "userName")String userName,
-                                     @RequestParam(name = "phone")String phone,
-                                     @RequestParam(name = "userPassword")String userPassword
+    public CommonReturnType register(@RequestBody UserModel userModel
                                      ) throws BusinessException {
 
-        UserModel userModel = new UserModel();
-        userModel.setUserId(userId);
-        userModel.setUnitId("***");
-        userModel.setUserName(userName);
-        userModel.setGender("0");
-        userModel.setBirthday("***");
-        userModel.setNation("***");
-        userModel.setEducation("***");
-        userModel.setPoliticalStatus("***");
-        userModel.setWordTime("***");
-        userModel.setEndTime("***");
-        userModel.setWorkId("***");
-        userModel.setWage(0);
-        userModel.setZipCode("***");
-        userModel.setHomeAddress("***");
-        userModel.setPhone(phone);
-        userModel.setUserPassword(userPassword);
-        userService.usersignup(userModel);
-
-        return CommonReturnType.create(null);
+        return CommonReturnType.create(userService.usersignup(userModel));
     }
 
 

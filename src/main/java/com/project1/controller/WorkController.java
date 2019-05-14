@@ -18,23 +18,44 @@ public class WorkController extends BaseController{
     private UsertypeworkDOMapper usertypeworkDOMapper;
 
     @Autowired
-    private UsertypeworkDO usertypeworkDO;
-
-    @Autowired
     private UserunitDOMapper userunitDOMapper;
 
-    @Autowired
-    private UserunitDO userunitDO;
 
     @RequestMapping(value = "/inserttypework",method = {RequestMethod.POST})
     @ResponseBody
     public CommonReturnType inserttypework(@RequestBody UsertypeworkDO usertypeworkDO
     ){
-        usertypeworkDOMapper.insertSelective(usertypeworkDO);
+        int i = usertypeworkDOMapper.insertSelective(usertypeworkDO);
 
-        return CommonReturnType.create(null);
+        return CommonReturnType.create(i);
     }
 
+    @RequestMapping(value = "/deletetypework",method = {RequestMethod.POST})
+    @ResponseBody
+    public CommonReturnType deletetypework(@RequestBody UsertypeworkDO usertypeworkDO
+    ){
+        int i = usertypeworkDOMapper.deleteByPrimaryKey(usertypeworkDO.getWordId());
+
+        return CommonReturnType.create(i);
+    }
+
+    @RequestMapping(value = "/insertunit",method = {RequestMethod.POST})
+    @ResponseBody
+    public CommonReturnType insertunit(@RequestBody UserunitDO userunitDO
+    ){
+
+        int i = userunitDOMapper.insertSelective(userunitDO);
+        return CommonReturnType.create(i);
+    }
+
+    @RequestMapping(value = "/deleteunit",method = {RequestMethod.POST})
+    @ResponseBody
+    public CommonReturnType deleteunit(@RequestBody UserunitDO userunitDO
+    ){
+
+        int i = userunitDOMapper.deleteByPrimaryKey(userunitDO.getUnitId());
+        return CommonReturnType.create(i);
+    }
 
 
 

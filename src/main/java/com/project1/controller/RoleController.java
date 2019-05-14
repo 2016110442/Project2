@@ -49,6 +49,7 @@ public class RoleController extends BaseController {
         UserroleinfoDO userroleinfoDO = new UserroleinfoDO();
 
         userroleinfoDO.setUserId(userinfoDO.getUserId());
+
         userroleinfoDO.setRoleId(userroleDO.getRoleId().toString());
         userroleinfoDOMapper.insertSelective(userroleinfoDO);
 
@@ -63,6 +64,17 @@ public class RoleController extends BaseController {
         userroleDOMapper.deleteByPrimaryKey(id);
         return CommonReturnType.create(null);
     }
+
+    @RequestMapping(value = "/deleteuserrole",method = {RequestMethod.DELETE},consumes = {CONTENT_TYPE_FORMED})
+    @ResponseBody
+    public CommonReturnType deleteuserrole(@RequestParam(name = "userid") Integer id
+    ){
+
+        userroleinfoDOMapper.deleteByuserId(id);
+
+        return CommonReturnType.create(null);
+    }
+
 
 
 
